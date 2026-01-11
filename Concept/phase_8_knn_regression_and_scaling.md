@@ -1,0 +1,134 @@
+# Phase 8: KNN Regression, Feature Scaling, and Comparison with Decision Trees
+
+This document covers **KNN Regression**, **feature scaling techniques**, and a **comparison of KNN with Decision Trees**. Each topic includes **intuitive explanation, graphical understanding, and Python implementation**.
+
+---
+
+## 1. KNN Regression
+
+**Intuition:**
+- Similar to KNN classification but used for **continuous target values**.
+- Predicts the target as the **average of K nearest neighbors**.
+
+**Graphical Idea:**
+- Scatter plot of points
+- New point marked
+- Circle around K nearest neighbors
+- Average of neighbors shown as prediction
+
+**Python Example:**
+```python
+import numpy as np
+from sklearn.neighbors import KNeighborsRegressor
+import matplotlib.pyplot as plt
+
+# Sample data: x vs y
+X = np.array([[1],[2],[3],[4],[5]])
+y = np.array([2,4,1,3,5])
+
+# Train KNN Regression
+model = KNeighborsRegressor(n_neighbors=3)
+model.fit(X, y)
+
+# Predict for new points
+X_new = np.array([[1.5],[2.5],[3.5]])
+y_pred = model.predict(X_new)
+print('Predictions:', y_pred)
+
+# Visualization
+plt.scatter(X, y, color='blue', label='Training points')
+plt.scatter(X_new, y_pred, color='green', marker='*', s=200, label='Predicted points')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('KNN Regression')
+plt.legend()
+plt.show()
+```
+**Explanation:**
+- Green stars = predicted values based on average of 3 nearest neighbors
+- Useful when relationship is **non-linear and irregular**
+
+---
+
+## 2. Scaling Features (Standardization / Normalization)
+
+**Why scaling matters for KNN:**
+- KNN uses **distance metrics**
+- Features with larger scales dominate the distance calculation
+
+### 2.1 Standardization (Z-score)
+- Subtract mean and divide by standard deviation
+- Centers features around 0 with unit variance
+
+**Python Example:**
+```python
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+print(X_scaled)
+```
+
+### 2.2 Normalization (Min-Max Scaling)
+- Rescales features to [0,1] range
+
+**Python Example:**
+```python
+from sklearn.preprocessing import MinMaxScaler
+
+scaler = MinMaxScaler()
+X_norm = scaler.fit_transform(X)
+print(X_norm)
+```
+
+**Explanation:**
+- Scaling ensures all features contribute equally to distance calculations
+- Essential for KNN, SVM, and other distance-based algorithms
+
+---
+
+## 3. Compare KNN with Decision Trees
+
+| Feature | KNN | Decision Tree |
+|---------|-----|---------------|
+| Type | Lazy learner | Eager learner |
+| Training time | Fast (just store data) | Slow (build tree) |
+| Prediction time | Slow (compute distance to all points) | Fast (traverse tree) |
+| Interpretability | Low | High (tree is visualizable) |
+| Sensitivity | Sensitive to feature scaling | Not sensitive to scaling |
+| Handles non-linear | Yes, naturally | Yes |
+| Overfitting | Can overfit with low K | Can overfit deep trees |
+
+**Graphical Idea:**
+- KNN: circle around point, neighbors determine output
+- Decision Tree: splits along feature thresholds, path from root to leaf gives prediction
+
+**Python Example: Decision Tree vs KNN Regression**
+```python
+from sklearn.tree import DecisionTreeRegressor
+
+# Decision Tree Regression
+dt_model = DecisionTreeRegressor()
+dt_model.fit(X, y)
+dt_pred = dt_model.predict(X_new)
+print('Decision Tree Predictions:', dt_pred)
+```
+
+**Explanation:**
+- KNN uses **neighbors averaging**
+- Decision Tree splits space into regions, output = mean in leaf
+- KNN better for smooth data, Tree better for piecewise / structured patterns
+
+---
+
+## 4. Key Takeaways
+
+- KNN Regression predicts **average of nearest neighbors**
+- **Scaling features** is essential for KNN and distance-based models
+- KNN and Decision Trees have **different trade-offs** in speed, interpretability, and sensitivity to scaling
+- Choice depends on **dataset size, structure, and prediction type**
+
+---
+
+**End of Phase 8: KNN Regression, Feature Scaling, and Comparison with Decision Trees**
+
