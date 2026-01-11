@@ -1,0 +1,159 @@
+# Phase 2: Linear Regression (Supervised Learning)
+
+This document covers **Linear Regression**, one of the foundational supervised learning algorithms. The explanation is **intuitive, step-by-step**, and includes **Python code snippets** for practical understanding.
+
+---
+
+## 1. What is Linear Regression?
+
+**Intuition:**
+- Linear Regression fits a **straight line** through your data to predict a **continuous target variable**.
+- Example: Predicting house prices based on size.
+
+**Equation:**
+```
+y = w0 + w1*x1 + w2*x2 + ... + wn*xn
+```
+Where:
+- y = predicted output
+- w = weights / coefficients
+- x = input features
+
+**Goal:** Find the line (weights) that **best fits the data**.
+
+---
+
+## 2. Types of Linear Regression
+
+1. **Simple Linear Regression**: One feature (x) → one target (y)
+2. **Multiple Linear Regression**: Multiple features → one target
+
+**Python Example (Simple Linear Regression):**
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Sample data: house size vs price
+X = np.array([50, 60, 70, 80, 90]).reshape(-1,1)  # Feature
+y = np.array([150, 160, 170, 180, 190])            # Target
+
+# Train model
+model = LinearRegression()
+model.fit(X, y)
+
+# Predict
+y_pred = model.predict(X)
+
+# Plot
+plt.scatter(X, y, color='blue')
+plt.plot(X, y_pred, color='red')
+plt.xlabel('Size (sq.m)')
+plt.ylabel('Price (k$)')
+plt.show()
+```
+**Explanation:**
+- Blue points = actual data
+- Red line = predicted line from Linear Regression
+- `fit()` learns the weights automatically
+
+---
+
+## 3. Cost Function (How the model learns)
+
+**Intuition:**
+- We need a measure to see **how wrong our predictions are**
+- Linear Regression uses **Mean Squared Error (MSE)**
+
+```
+MSE = (1/n) * Σ(y_true - y_pred)^2
+```
+- Smaller MSE → better line
+
+**Python Example:**
+```python
+from sklearn.metrics import mean_squared_error
+mse = mean_squared_error(y, y_pred)
+print('MSE:', mse)
+```
+
+---
+
+## 4. Gradient Descent (Optional for understanding weights)
+
+**Intuition:**
+- Start with random weights
+- Move in the direction that **reduces the error**
+- Repeat until convergence
+
+**Python Example (Manual Gradient Descent for one feature):**
+```python
+# Initialize weight and bias
+w = 0
+b = 0
+learning_rate = 0.01
+n = len(X)
+
+# Gradient descent loop
+for i in range(1000):
+    y_pred = w*X.flatten() + b
+    dw = (-2/n) * np.sum(X.flatten() * (y - y_pred))
+    db = (-2/n) * np.sum(y - y_pred)
+    w = w - learning_rate * dw
+    b = b - learning_rate * db
+
+print('Weight:', w, 'Bias:', b)
+```
+**Explanation:**
+- `dw` and `db` calculate the **gradient of the error**
+- We subtract learning rate * gradient to move weights toward minimum error
+
+---
+
+## 5. Assumptions of Linear Regression
+
+1. Linear relationship between features and target
+2. Residuals (errors) are normally distributed
+3. No multicollinearity between features
+4. Homoscedasticity (constant variance of errors)
+
+---
+
+## 6. Evaluation Metrics
+
+- **Mean Squared Error (MSE)**
+- **Root Mean Squared Error (RMSE)**
+- **R² Score (Coefficient of Determination)**
+
+**Python Example:**
+```python
+from sklearn.metrics import r2_score
+r2 = r2_score(y, y_pred)
+print('R² Score:', r2)
+```
+- R² close to 1 → model explains most of the variance
+
+---
+
+## 7. Key Takeaways
+
+- Linear Regression predicts **continuous values**
+- MSE is used to measure **error**
+- Gradient descent is the **learning mechanism**
+- Always check assumptions before applying to real data
+
+---
+
+## Next Steps
+
+After mastering Linear Regression, next topics in Phase 2:
+1. Logistic Regression (Classification)
+2. Polynomial Regression (Non-linear relationships)
+3. Regularization techniques (Ridge, Lasso)
+
+These topics **build on Linear Regression concepts** and are critical for both ML interviews and practical projects.
+
+---
+
+**End of Phase 2: Linear Regression**
+
