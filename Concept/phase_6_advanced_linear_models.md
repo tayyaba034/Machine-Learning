@@ -1,0 +1,139 @@
+# Phase 6: Advanced Linear Models in Machine Learning
+
+This document covers **advanced topics in supervised learning**, including **Softmax Regression for multi-class classification**, **Polynomial / Non-linear features**, and **Regularization techniques (Ridge, Lasso, ElasticNet)** to prevent overfitting. Each topic includes **intuitive explanation**, **mathematical insight**, and **Python implementation**.
+
+---
+
+## 1. Multi-class Classification (Softmax Regression)
+
+**Intuition:**
+- Logistic Regression works for **binary classification**.
+- Softmax Regression (Multinomial Logistic Regression) extends this to **multi-class problems**.
+- Predicts probability of each class and picks the one with highest probability.
+
+**Equation:**
+```
+P(y=j|x) = exp(w_j . x) / Σ_k exp(w_k . x)
+```
+Where j = class, k = all classes
+
+**Python Example:**
+```python
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+
+# Load dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Train Softmax Regression
+model = LogisticRegression(multi_class='multinomial', solver='lbfgs', max_iter=200)
+model.fit(X, y)
+
+# Predict
+preds = model.predict(X)
+print('Predicted classes:', preds[:10])
+```
+**Explanation:**
+- `multi_class='multinomial'` uses softmax function
+- Each class gets a probability → class with max probability is chosen
+
+---
+
+## 2. Polynomial / Non-linear Features
+
+**Intuition:**
+- Linear Regression assumes linear relationship between features and target.
+- Polynomial features allow model to **fit curves instead of straight lines**.
+
+**Equation (for 1 feature):**
+```
+y = w0 + w1*x + w2*x^2 + ... + wn*x^n
+```
+- x^2, x^3, etc. allow non-linear fitting
+
+**Python Example:**
+```python
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+X = np.array([1,2,3,4,5]).reshape(-1,1)
+y = np.array([1,4,9,16,25])  # Quadratic relationship
+
+# Transform features
+poly = PolynomialFeatures(degree=2)
+X_poly = poly.fit_transform(X)
+
+# Train Linear Regression
+model = LinearRegression()
+model.fit(X_poly, y)
+y_pred = model.predict(X_poly)
+
+print('Predictions:', y_pred)
+```
+**Explanation:**
+- Original feature X → transformed to [1, x, x^2]
+- Model can now fit quadratic curve
+
+---
+
+## 3. Regularization to Prevent Overfitting
+
+**Problem:** Polynomial or complex models can **overfit training data**.
+
+### 3.1 Ridge Regression (L2 Regularization)
+- Adds penalty: `α * Σ w^2`
+- Shrinks large weights → reduces overfitting
+
+**Python Example:**
+```python
+from sklearn.linear_model import Ridge
+
+model = Ridge(alpha=1.0)
+model.fit(X_poly, y)
+y_pred = model.predict(X_poly)
+```
+
+### 3.2 Lasso Regression (L1 Regularization)
+- Adds penalty: `α * Σ |w|`
+- Can shrink some weights to 0 → feature selection
+
+**Python Example:**
+```python
+from sklearn.linear_model import Lasso
+
+model = Lasso(alpha=0.1)
+model.fit(X_poly, y)
+y_pred = model.predict(X_poly)
+```
+
+### 3.3 ElasticNet
+- Combination of L1 and L2 penalties
+- Balances between Ridge and Lasso
+
+**Python Example:**
+```python
+from sklearn.linear_model import ElasticNet
+
+model = ElasticNet(alpha=0.1, l1_ratio=0.5)
+model.fit(X_poly, y)
+y_pred = model.predict(X_poly)
+```
+
+---
+
+## 4. Key Takeaways
+
+- **Softmax Regression:** handles multi-class classification naturally
+- **Polynomial features:** allow fitting non-linear patterns
+- **Regularization:** essential to prevent overfitting in complex models
+- Ridge → penalizes large weights
+- Lasso → performs feature selection
+- ElasticNet → combines both approaches
+
+---
+
+**End of Phase 6: Advanced Linear Models**
+
