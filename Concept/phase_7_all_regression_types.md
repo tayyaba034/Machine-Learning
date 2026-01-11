@@ -1,0 +1,127 @@
+# Phase 7: Types of Regression in Machine Learning
+
+This document provides an overview of **all major regression types**, including **Linear Regression, Logistic Regression (Binomial & Multinomial), Ridge, Lasso, and ElasticNet**. Each section includes **intuitive explanation**, **mathematical insight**, and **Python code snippets** for practical understanding.
+
+---
+
+## 1. Linear Regression
+
+- **Purpose:** Predict continuous numerical values
+- **Equation:** y = w0 + w1*x1 + ... + wn*xn
+- **Use Case:** House prices, sales prediction
+
+**Python Example:**
+```python
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+X = np.array([[1],[2],[3],[4]])
+y = np.array([2,4,6,8])
+model = LinearRegression()
+model.fit(X, y)
+y_pred = model.predict(X)
+print(y_pred)
+```
+
+---
+
+## 2. Logistic Regression (Binomial)
+
+- **Purpose:** Binary classification (0 or 1)
+- **Equation:** ŷ = 1 / (1 + e^-(w0 + w1*x))
+- **Use Case:** Spam detection, disease prediction
+
+**Python Example:**
+```python
+from sklearn.linear_model import LogisticRegression
+X = np.array([[1],[2],[3],[4]])
+y = np.array([0,0,1,1])
+model = LogisticRegression()
+model.fit(X, y)
+print(model.predict(X))
+```
+
+---
+
+## 3. Logistic Regression (Multinomial / Softmax)
+
+- **Purpose:** Multi-class classification
+- **Equation:** P(y=j|x) = exp(w_j . x) / Σ_k exp(w_k . x)
+- **Use Case:** Iris dataset (3 classes)
+
+**Python Example:**
+```python
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+iris = load_iris()
+X = iris.data
+y = iris.target
+model = LogisticRegression(multi_class='multinomial', solver='lbfgs', max_iter=200)
+model.fit(X, y)
+print(model.predict(X[:5]))
+```
+
+---
+
+## 4. Ridge Regression (L2 Regularization)
+
+- **Purpose:** Reduce overfitting by penalizing large weights
+- **Penalty:** α * Σ w^2
+
+**Python Example:**
+```python
+from sklearn.linear_model import Ridge
+X = np.array([[1],[2],[3],[4]])
+y = np.array([2,4,6,8])
+model = Ridge(alpha=1.0)
+model.fit(X, y)
+print(model.predict(X))
+```
+
+---
+
+## 5. Lasso Regression (L1 Regularization)
+
+- **Purpose:** Reduce overfitting + feature selection
+- **Penalty:** α * Σ |w|
+
+**Python Example:**
+```python
+from sklearn.linear_model import Lasso
+model = Lasso(alpha=0.1)
+model.fit(X, y)
+print(model.predict(X))
+```
+
+---
+
+## 6. ElasticNet Regression
+
+- **Purpose:** Combination of Ridge and Lasso
+- **Penalty:** α * (l1_ratio * L1 + (1-l1_ratio) * L2)
+
+**Python Example:**
+```python
+from sklearn.linear_model import ElasticNet
+model = ElasticNet(alpha=0.1, l1_ratio=0.5)
+model.fit(X, y)
+print(model.predict(X))
+```
+
+---
+
+## 7. Summary Table
+
+| Regression Type | Target Type | Key Feature | Use Case |
+|-----------------|------------|------------|---------|
+| Linear          | Continuous | None      | House prices |
+| Logistic (Binomial) | Binary  | Sigmoid   | Spam detection |
+| Logistic (Multinomial) | Multi-class | Softmax | Iris classification |
+| Ridge           | Continuous | L2 regularization | Overfitting prevention |
+| Lasso           | Continuous | L1 regularization | Feature selection |
+| ElasticNet      | Continuous | L1+L2 combination | Complex regression problems |
+
+---
+
+**End of Phase 7: All Regression Types**
+
