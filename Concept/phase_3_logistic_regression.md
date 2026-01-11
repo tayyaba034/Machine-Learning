@@ -1,7 +1,6 @@
-# Phase 3: Logistic Regression (Supervised Learning - Classification)
+# Logistic Regression (Supervised Learning - Classification)
 
-This document covers **Logistic Regression**, a fundamental supervised learning algorithm used for **binary classification**. The explanation is **intuitive, step-by-step**, and includes **Python code snippets** for practical understanding.
-
+This document covers **Logistic Regression**, a fundamental supervised learning algorithm used for **binary classification**
 ---
 
 ## 1. What is Logistic Regression?
@@ -155,5 +154,4 @@ After mastering Logistic Regression:
 
 ---
 
-**End of Phase 3: Logistic Regression**
 
