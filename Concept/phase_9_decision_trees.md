@@ -1,0 +1,127 @@
+# Phase 9: Decision Trees in Machine Learning
+
+This document covers **Decision Tree algorithms**, including **intuitive explanation, graphical understanding, and Python implementation** for both classification and regression.
+
+---
+
+## 1. What is a Decision Tree?
+
+**Intuition:**
+- Decision Tree is a **tree-like model** of decisions.
+- It splits the data based on **feature values** to predict a target.
+- Each **node** represents a feature, **branches** are conditions, and **leaves** are predictions.
+
+**Graphical Idea:**
+```
+          Root Node
+          /       \
+     Feature<=x   Feature>x
+      /     \       /     \
+   Leaf1  Leaf2   Leaf3   Leaf4
+```
+- The tree recursively splits until a stopping condition is reached.
+
+---
+
+## 2. How Does a Decision Tree Work?
+
+### 2.1 Splitting Criteria
+- **Classification Trees:** use **Gini Impurity** or **Entropy/Information Gain**
+- **Regression Trees:** use **Mean Squared Error (MSE)** to split
+
+**Gini Impurity Formula:**
+```
+Gini = 1 - Σ(p_i^2)
+```
+- Measures how mixed classes are in a node
+- Lower Gini → purer node
+
+**Entropy / Information Gain Formula:**
+```
+Entropy = - Σ(p_i * log2(p_i))
+Information Gain = Parent Entropy - Weighted Children Entropy
+```
+
+### 2.2 Stopping Criteria
+- Maximum depth of tree
+- Minimum samples per leaf
+- No improvement in impurity
+
+---
+
+## 3. Advantages & Disadvantages
+
+### Advantages
+- Easy to understand and visualize
+- Can handle both numerical and categorical features
+- Non-linear relationships handled naturally
+
+### Disadvantages
+- Can overfit if tree is deep
+- Sensitive to small variations in data
+- Unstable: small changes in data → different tree
+
+---
+
+## 4. Python Implementation
+
+### 4.1 Classification Example
+```python
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+import matplotlib.pyplot as plt
+
+# Load dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Train Decision Tree
+model = DecisionTreeClassifier(max_depth=3)
+model.fit(X, y)
+
+# Predict
+preds = model.predict(X[:5])
+print('Predicted classes:', preds)
+
+# Visualize Tree
+plt.figure(figsize=(12,8))
+plot_tree(model, feature_names=iris.feature_names, class_names=iris.target_names, filled=True)
+plt.show()
+```
+
+### 4.2 Regression Example
+```python
+from sklearn.tree import DecisionTreeRegressor
+import numpy as np
+
+X = np.array([[1],[2],[3],[4],[5]])
+y = np.array([2,3,2.5,5,4])
+
+# Train Decision Tree Regressor
+reg_model = DecisionTreeRegressor(max_depth=3)
+reg_model.fit(X, y)
+
+# Predict
+X_new = np.array([[1.5],[2.5],[3.5]])
+y_pred = reg_model.predict(X_new)
+print('Predictions:', y_pred)
+```
+
+**Explanation:**
+- Splits are made to minimize impurity (classification) or MSE (regression)
+- Tree visual gives clear understanding of decision paths
+
+---
+
+## 5. Key Takeaways
+
+- Decision Trees split data based on features to predict outcomes
+- Trees can handle non-linear data naturally
+- Easy to visualize and interpret
+- Risk of overfitting requires tuning (max depth, min samples, pruning)
+
+---
+
+**End of Phase 9: Decision Trees**
+
